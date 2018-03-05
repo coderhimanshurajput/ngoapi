@@ -6,20 +6,19 @@ const
     dataSchema = mongoose.Schema;
 
 let AddCategories  = new dataSchema({
-   addcategory:{
+    Addcategory:{
        type : String,
        require : true
    },
-   file : {
+   File : {
        type : String,
        require : true
    },
-    description : {
+    Description : {
        type: String,
         require : true
     }
 });
-let addcat = mongoose.model('CategoriesModel',AddCategories);
 
-module.exports = addcat;
-
+var Addcate = mongoose.model('CategoriesModel',AddCategories);
+module.exports = Addcate;
