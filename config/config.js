@@ -9,10 +9,10 @@ const config = {
         autoIndex:true,
         log:true
     },
-    server:{
+    /*server:{
         PORT : 3001,
         HOSTNAME: 'http://localhost:3001/'
-    }
+    }*/
 };
 
 module.exports = config;

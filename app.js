@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var admindashboard = require('./routes/admindashboardroute');
+// var admindashboard = require('./routes/admindashboardroute');
 var config = require('./config/config');
 
 var app = express();
@@ -19,7 +19,7 @@ mongoose.set('debug',config.db.DEBUG);
 mongoose.promise = require('bluebird');
 mongoose.connect (config.db.URL,{autoReconnect:true});
 mongoose.connection.on("connected",function (obj) {
-    console.log(`Connection is Successfully on ${config.db.URL}`);
+    console.log(`A connection was successfully established with the server ${config.db.URL}`);
 });
 mongoose.connection.on("error",function (error) {
     console.log( `Oops !!!! Connection Is Failed Please Try Again Due To ${error} `);
@@ -42,6 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+// app.use ('/admindashboardroute',admindashboard);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

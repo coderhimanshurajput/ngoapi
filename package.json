@@ -6,6 +6,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "Buffer": "0.0.0",
+    "async": "^2.6.0",
     "bluebird": "^3.5.1",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
@@ -13,6 +15,7 @@
     "express": "~4.15.5",
     "jade": "~1.11.0",
     "jwt-express": "^1.1.0",
+    "lodash": "^4.17.5",
     "mongoose": "^5.0.7",
     "morgan": "~1.9.0",
     "nodemon": "^1.17.1",
