@@ -2,13 +2,14 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-// var admindashboard = require('./routes/admindashboardroute');
+// var users = require('./routes/users');
+var admin = require('./routes/admin');
 var config = require('./config/config');
 
 var app = express();
@@ -25,9 +26,6 @@ mongoose.connection.on("error",function (error) {
     console.log( `Oops !!!! Connection Is Failed Please Try Again Due To ${error} `);
 });
 
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -41,8 +39,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
-// app.use ('/admindashboardroute',admindashboard);
+// app.use('/users', users);
+app.use ('/admin',admin);
 
 
 // catch 404 and forward to error handler

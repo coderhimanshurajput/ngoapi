@@ -1,12 +1,11 @@
 'use strict';
-
 const
     mongoose  = require('mongoose'),
     path = require('path'),
     dataSchema = mongoose.Schema;
 
 let AddCategories  = new dataSchema({
-    Addcategory:{
+    Category:{
        type : String,
        require : true
    },
@@ -20,5 +19,5 @@ let AddCategories  = new dataSchema({
     }
 });
 
-var Addcate = mongoose.model('CategoriesModel',AddCategories);
-module.exports = Addcate;
+
+module.exports = mongoose.model('CategoriesModel',AddCategories );
