@@ -1,44 +1,38 @@
 'use strict';
 
 const
+    express  = require('express'),
     path = require('path'),
     async  = require('async'),
     _ =  require('lodash'),
-
-    md5 = require('md5'),
-    crypto = require('crypto'),
+    bcrypt = require('bcryptjs'),
+    jwt = require('jsonwebtoken'),
     fs = require('fs'),
     mongoose  =  require('mongoose');
 
-let UserD = require(path.resolve('./models/UserModel'));
+var UserD = require(path.resolve('./models/UserModel'));
+var config =  require(path.resolve('./config/secretkey'));
 
 exports.userAdd =  function (req,  res, next) {
 
-    let HasPass =  crypto.createHash('sha256').update(String).digest('hex');
-
+    let HasPass = bcrypt.hashSync(req.body.User_pass,8) ;
      // body declaration
-
     let data =  req.body;
-
     // body with attribute (Fildes) Declaration
-
-    let adduser = {
-        User_name:data.User_name,
-        User_address: data.User_address,
-        User_email: data.User_email,
-        User_mobile: data.User_mobile,
-        HasPass: data.User_pass,
-        User_img: data.User_img
-    }
-    // console.log(adduser);
-
-    let AddUser = new UserD(adduser);
-    console.log(AddUser);
-    AddUser.save(function (err, saveObj) {
-        if (err){
-            res.json({obj:err,message:'Sorry!!!!.... data user not Saved'});
-        }else {
-            res.json({obj:saveObj, message: ' Thanku.... user save succfully'});
-        }
-    })
-}
+console.log(HasPass);
+    UserD.create ({
+       User_name : req.body.User_name,
+       User_address: req.body.User_address,
+       User_email: req.body.User_email,
+       User_mobile: req.body.User_mobile,
+       User_pass: HasPass,
+        User_img: req.body.User_img
+    },
+        function (err, UserD) {
+            if (err) return res.status(500).send("There was a problem registering the user .")
+            var token = jwt.sign({id: UserD._id}, config.secret, {
+                expiresIn: 900
+            });
+            res.status(200).send({auth: true, token: token})
+        });
+};
