@@ -16,10 +16,10 @@ var config =  require(path.resolve('./config/secretkey'));
 exports.userAdd =  function (req,  res, next) {
 
     let HasPass = bcrypt.hashSync(req.body.User_pass,8) ;
-     // body declaration
-    let data =  req.body;
+    // let Haspass = crypto.createHash('md5').update(str).digest('BufferSource');
     // body with attribute (Fildes) Declaration
 console.log(HasPass);
+
     UserD.create ({
        User_name : req.body.User_name,
        User_address: req.body.User_address,
@@ -36,3 +36,5 @@ console.log(HasPass);
             res.status(200).send({auth: true, token: token})
         });
 };
+
+

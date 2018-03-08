@@ -14,6 +14,10 @@ let AdminLogin = new dataSchema({
         type: String,
         require: true
     },
+    Admin_email : {
+        type : String,
+        require : true
+    },
     Admin_pass : {
         type : String,
         require : true
