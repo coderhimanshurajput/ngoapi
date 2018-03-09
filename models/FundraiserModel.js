@@ -1,12 +1,12 @@
-'user strict';
+'use strict';
 
 const
     path = require('path'),
     mongoose =  require('mongoose'),
-    dataSchema =  mongoose.Schema
+    dataSchema  = mongoose.Schema;
 
-let Disaster = new dataSchema({
-    Disaster_name : { type: String, require : true},
+let Fundraiser =  new dataSchema({
+    Fundraiser_name : { type: String, require : true},
     Short_Description : { type: String, require : true},
     Full_Description : {type: String, require : true},
     Country : {type : String ,  require : true },
@@ -19,4 +19,4 @@ let Disaster = new dataSchema({
     Document : { type : String , require : true}
 });
 
-module.exports = mongoose.model('DisastersModel',Disaster)
+module.exports = mongoose.model('FundraiserModel' , Fundraiser)

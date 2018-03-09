@@ -14,13 +14,52 @@ var UserD = require(path.resolve('./models/UserModel'));
 var config =  require(path.resolve('./config/secretkey'));
 
 exports.userAdd =  function (req,  res, next) {
+    let err;
+    UserD.find ({User_email: req.body.User_email,User_mobile: req.body.User_mobile})
+        .exec()
+        .then(user =>{
+            if(user.length >= 1){
+                return res.status(409).json({
+                   message : 'OOPS!!!! Email-Id all ready used !!'
+                });
+            } else {
+                bcrypt.hash(req.body.User_pass, 10, (err, hash) => {
+                    if (err){
+                        return res.status(500).json({
+                            error:err
+                        })
+                    } else {
+                        let user =  new UserD ({
+                            _id : new mongoose.Types.ObjectId(),
+                            User_name : req.body.User_name,
+                            User_address: req.body.User_address,
+                            User_email: req.body.User_email,
+                            User_mobile: req.body.User_mobile,
+                            User_pass: hash,
+                            User_img: req.body.User_img
+                        });
 
-    let HasPass = bcrypt.hashSync(req.body.User_pass,8) ;
-    // let Haspass = crypto.createHash('md5').update(str).digest('BufferSource');
-    // body with attribute (Fildes) Declaration
-console.log(HasPass);
+                        user
+                            .save()
+                            .then(result =>{
+                                console.log(result);
+                                res.status(201).json({
+                                   message: "Data Saved"
+                                });
+                            })
+                            .catch(err =>{
+                                console.log(err)
+                                res.status(500).json({
+                                 error : err
+                                });
+                            });
+                    }
+                });
+            }
+        });
 
-    UserD.create ({
+
+    /*UserD.create ({
        User_name : req.body.User_name,
        User_address: req.body.User_address,
        User_email: req.body.User_email,
@@ -34,7 +73,14 @@ console.log(HasPass);
                 expiresIn: 900
             });
             res.status(200).send({auth: true, token: token})
-        });
+        });*/
 };
+
+exports.UserDelete = function (req, res, next) {
+    UserD.findByIdAndRemove(req.params.id, function (err, UserD) {
+        if (err) return res.status(500).send('there was');
+        res.status(200).send("UserD:"+UserD.name+ "was delete");
+    })
+}
 
 

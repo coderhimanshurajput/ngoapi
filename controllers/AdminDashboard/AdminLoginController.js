@@ -8,45 +8,44 @@ const
     _ = require('lodash'),
     mongoose =  require('mongoose');
 
-const AdminLogin =  require(path.resolve('./models/adminloginModel'));
+var User =  require(path.resolve('./models/adminloginModel'));
 var config =  require(path.resolve('./config/secretkey'));
 
 exports.AdminRegister = function (req, res, next) {
-
-    AdminLogin.find ({Admin_email : req.body.Admin_email})
+    User.find({ Admin_email: req.body.Admin_email })
         .exec()
-        .then(AdminLogin => {
-            if(AdminLogin.length >= 1){
+        .then(user => {
+            if (user.length >= 1 ) {
                 return res.status(409).json({
-                    message : 'user All ready used this email id'
+                    message: "OOPS!!!! Email-Id all ready used !!"
                 });
             } else {
-                bcrypt.hash(req.body.Admin_pass, 10 , (err, hash) => {
-                    if(err){
+                bcrypt.hash(req.body.Admin_pass, 10, (err, hash) => {
+
+                    if (err) {
                         return res.status(500).json({
-                            error : err
+                            error: err
                         });
                     } else {
-                        let  AdminLogin = new AdminLogin ({
+                        const user = new User({
                             _id: new mongoose.Types.ObjectId(),
                             Admin_name : req.body.Admin_name,
                             Admin_user : req.body.Admin_user,
-                            // Admin_email : req.body.Admin_email,
-                            Admin_pass: hash
+                            Admin_email: req.body.Admin_email,
+                            Admin_pass : hash
                         });
-                        AdminLogin
+                        user
                             .save()
-                            .then(result =>{
+                            .then(result => {
                                 console.log(result);
                                 res.status(201).json({
-                                    message : 'user create'
+                                    message: "User created"
                                 });
-
                             })
                             .catch(err => {
                                 console.log(err);
                                 res.status(500).json({
-                                    error:err
+                                    error: err
                                 });
                             });
                     }
@@ -56,23 +55,6 @@ exports.AdminRegister = function (req, res, next) {
 
 };
 
-
-    /*console. log(HasPassword);
-    AdminLogin. create({
-        _id: new mongoose.Types.ObjectId(),
-        Admin_name : req.body.Admin_name,
-        Admin_user : req.body.Admin_user,
-        Admin_email : req.body.Admin_email,
-        Admin_pass : HasPassword
-    },
-        function (err, AdminLogin) {
-        if(err) return  res. status (500). send (" Sorry!!!! There was a problem the user..... Please try again later ")
-            let token = jwt. sign ({id: AdminLogin. _id}, config. secret,{
-                expiresIn: 900
-            });
-        res. status (200) .send ({auth: true, token: token})
-        });
-}*/
 exports.AdminLogin = function (req, res,  next ) {
     // console.log('himanshu rajput test   ');
     const user = {

@@ -28,12 +28,17 @@ fs.readdirSync(path.resolve('./controllers/AdminDashboard')).forEach(file =>{
 router.post('/CreateCategories',ctrl.CategoriesController.CreateCategories);
 /** @namespace ctrl.AdminLoginController */
 router.post('/AdminRegister',ctrl.AdminLoginController.AdminRegister);
+router.post('/AdminLogin', ctrl.AdminLoginController.AdminLogin);
 /** @namespace ctrl.TacController */
 router.post('/TermAndCondition',ctrl.TacController.TermAndCondition);
 /** @namespace ctrl.PrivacyController */
 router.post('/PrivacyDet',ctrl.PrivacyController.PrivacyDet);
 /** @namespace ctrl.UserController */
 router.post('/userAdd',ctrl.UserController.userAdd);
-router.post('/AdminLogin', ctrl.AdminLoginController.AdminLogin);
+/** @namespace ctrl.DisastersController */
+router.post('/DisastersAdd', ctrl.DisastersController.DisastersAdd);
+/** @namespace ctrl.FundraiserController */
+router.post('/AddFundraiser',ctrl.FundraiserController.AddFundraiser);
+router.post('/UserDelete',ctrl.UserController.UserDelete);
 
 module.exports = router ;
