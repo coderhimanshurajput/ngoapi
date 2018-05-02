@@ -40,5 +40,6 @@ router.post('/DisastersAdd', ctrl.DisastersController.DisastersAdd);
 /** @namespace ctrl.FundraiserController */
 router.post('/AddFundraiser',ctrl.FundraiserController.AddFundraiser);
 router.post('/UserDelete',ctrl.UserController.UserDelete);
+router.get('/getAdmin',ctrl.AdminLoginController.getAdmin);
 
 module.exports = router ;

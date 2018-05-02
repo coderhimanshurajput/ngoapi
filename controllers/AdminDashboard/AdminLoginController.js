@@ -56,11 +56,41 @@ exports.AdminRegister = function (req, res, next) {
 };
 
 exports.AdminLogin = function (req, res,  next ) {
-    // console.log('himanshu rajput test   ');
+    user.find({Admin_email:req.body.Admin_email})
+     .exec()
+     .then(user=> {
+         if(user.length < 1 ){
+           return res.status(401).json ({
+               message: 'Sorry!!'
+           })
+         }
+         bcrypt.compare(req.body.Admin_pass, user[0].Admin_pass,(err, result)=> {
+                if(err){
+                    return res.status(401).json({
+                        message: 'Auth Faield'
+                    });
+                } if(result){
+                    return res.status(200).json({
+                        message: 'Login Succsfully '
+                    });
+                }
+                res.status(401).json({
+                    message: 'Auth failed '
+                })
+         })
+
+     })
+     .catch(err =>{
+         console.log(err);
+         res.status(500).json({
+             error: err
+         });
+     });
+
     const user = {
-        Admin_name: 'himanshu',
-        Admin_user: 'himanshurajput',
-        Admin_pass: 'dsddsds'
+        Admin_name: req.body.Admin_name,
+        Admin_user: req.body.Admin_user,
+        Admin_pass: req.body.Admin_pass
     }
     jwt.sign({user}, 'secretkey' , (err, token) =>{
         res.json({
@@ -69,3 +99,14 @@ exports.AdminLogin = function (req, res,  next ) {
     })
 
 }
+
+exports.getAdmin = ((req, res, next) => {
+    let cursor = db.adminloginmodels.find({},{Admin_name:1,Admin_user:1,Admin_email:1});
+    cursor.each((err, item)=> {
+      if(item != null) {
+          str = str + "Admin_name" + "<br>";
+      }  
+    });
+    res.sent(str);
+    db.close();
+})

@@ -36,6 +36,7 @@ exports.userAdd =  function (req,  res, next) {
                             User_email: req.body.User_email,
                             User_mobile: req.body.User_mobile,
                             User_pass: hash,
+                            User_Verified: false , 
                             User_img: req.body.User_img
                         });
 

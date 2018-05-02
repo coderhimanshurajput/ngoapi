@@ -24,4 +24,6 @@ let AdminLogin = new dataSchema({
     }
 });
 
+
+
 module.exports = mongoose.model('adminloginModel',AdminLogin)
